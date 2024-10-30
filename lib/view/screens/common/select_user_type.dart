@@ -1,5 +1,4 @@
 import 'package:dairy_direct/utils/colors.dart';
-import 'package:dairy_direct/utils/images.dart';
 import 'package:dairy_direct/view/screens/admin/admin_login_screen.dart';
 import 'package:dairy_direct/view/widgets/custom_text.dart';
 import 'package:dairy_direct/view/widgets/user_type_widget.dart';

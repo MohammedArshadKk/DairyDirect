@@ -1,4 +1,5 @@
-import 'package:dairy_direct/utils/colors.dart';
+
+import 'package:dairy_direct/view/screens/admin/salesman_screen.dart';
 import 'package:dairy_direct/view/screens/common/select_user_type.dart';
 import 'package:dairy_direct/view/widgets/custom_container.dart';
 import 'package:dairy_direct/view/widgets/custom_text.dart';
@@ -6,6 +7,8 @@ import 'package:dairy_direct/view/widgets/grid_itom_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../../utils/colors.dart';
 
 class AdminHomeScreen extends StatelessWidget {
   const AdminHomeScreen({super.key});
@@ -46,7 +49,7 @@ class AdminHomeScreen extends StatelessWidget {
               bottomRight: Radius.circular(30),
             ),
           ),
-          const SizedBox(height: 20), // Add space between the container and grid
+          const SizedBox(height: 20), 
           Expanded(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -68,7 +71,9 @@ class AdminHomeScreen extends StatelessWidget {
                   ),
                   GridViewItomWidget(
                     text: 'Salesmen',
-                    onTap: () {},
+                    onTap: () {
+                      Get.to(()=>SalesmanScreen()); 
+                    },
                     icon: Icons.person_2_outlined,
                   ),
                   GridViewItomWidget(

@@ -1,3 +1,4 @@
+
 import 'package:dairy_direct/utils/colors.dart';
 import 'package:dairy_direct/utils/images.dart';
 import 'package:dairy_direct/view/screens/admin/admin_home.dart';
@@ -6,7 +7,6 @@ import 'package:dairy_direct/view/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AdminLoginScreen extends StatelessWidget {
