@@ -9,14 +9,32 @@ import 'package:dairy_direct/view/widgets/custom_container.dart';
 import 'package:dairy_direct/view/widgets/custom_text.dart';
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 
-class AddSalesmanScreen extends StatelessWidget {
-  AddSalesmanScreen({super.key});
+class EditSalesmanScreen extends StatefulWidget {
+  EditSalesmanScreen({super.key, required this.salesmanModel});
+  final SalesmanModel salesmanModel;
+
+  @override
+  State<EditSalesmanScreen> createState() => _EditSalesmanScreenState();
+}
+
+class _EditSalesmanScreenState extends State<EditSalesmanScreen> {
   final TextEditingController nameController = TextEditingController();
+
   final TextEditingController passIdController = TextEditingController();
+
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
   final EncryptData encryptData = EncryptData();
+  @override
+  void initState() {
+    nameController.text = widget.salesmanModel.name;
+    passIdController.text = widget.salesmanModel.pass;
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -50,9 +68,14 @@ class AddSalesmanScreen extends StatelessWidget {
                             borderRadius: BorderRadius.circular(30),
                             child: Center(
                               child: value.image == null
-                                  ? const Icon(
-                                      Icons.add_photo_alternate_outlined,
-                                      size: 50,
+                                  ? ClipRRect(
+                                      borderRadius: BorderRadius.circular(30),
+                                      child: Image.network(
+                                        widget.salesmanModel.imgUrl,
+                                        width: 180,
+                                        height: 180,
+                                        fit: BoxFit.cover,
+                                      ),
                                     )
                                   : ClipRRect(
                                       borderRadius: BorderRadius.circular(30),
@@ -118,31 +141,28 @@ class AddSalesmanScreen extends StatelessWidget {
                       ? const CircularProgressIndicator()
                       : GestureDetector(
                           onTap: () async {
-                           
-                            if (value.image == null) {
-                              showMessage('Please add profile', context);
-                            } else {
-                              if (formKey.currentState!.validate()) {
+                            if (formKey.currentState!.validate()) {
+                              if (value.image != null) {
                                 await value.uploadProfile();
-                                // String encryptPass = encryptData
-                                //     .encryptText(passIdController.text);
-                                // log(encryptData
-                                //     .decryptText(encryptPass));
-                                SalesmanModel salesmanModel = SalesmanModel(
-                                    name: nameController.text,
-                                    pass: passIdController.text,
-                                    imgUrl: value.profile!);
-                                await value.addToTable(salesman: salesmanModel);
-
-                                if (value.iscompleted) {
-                                  showMessage(
-                                      "Salesman adding completed", context);
-                                }
-                                value.fetchSalesman();
-                                value.image = null;
-                                passIdController.clear();
-                                nameController.clear();
                               }
+
+                              SalesmanModel salesmanModel = SalesmanModel(
+                                  name: nameController.text,
+                                  pass: passIdController.text,
+                                  imgUrl: value.image == null
+                                      ? widget.salesmanModel.imgUrl
+                                      : value.profile!);
+                              await value.edit(
+                                  salesmanModel: salesmanModel,
+                                  id: widget.salesmanModel.columId!);
+                              if (value.iscompleted) {
+                                showMessage("Salesman edited", context);
+                              }
+                              value.fetchSalesman();
+                              value.image = null;
+                              passIdController.clear();
+                              nameController.clear();
+                              Navigator.pop(context);
                             }
                           },
                           child: CustomContainer(

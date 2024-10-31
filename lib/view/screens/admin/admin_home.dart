@@ -1,4 +1,5 @@
-
+import 'package:dairy_direct/utils/alert.dart';
+import 'package:dairy_direct/view/screens/admin/admin_product_screen.dart';
 import 'package:dairy_direct/view/screens/admin/salesman_screen.dart';
 import 'package:dairy_direct/view/screens/common/select_user_type.dart';
 import 'package:dairy_direct/view/widgets/custom_container.dart';
@@ -30,9 +31,11 @@ class AdminHomeScreen extends StatelessWidget {
         actions: [
           IconButton(
             onPressed: () async {
-              SharedPreferences prefs = await SharedPreferences.getInstance();
-              await prefs.setBool('admin', false);
-              Get.offAll(() => const SelectUserTypeScreen());
+              showMyDialog(context, () async {
+                SharedPreferences prefs = await SharedPreferences.getInstance();
+                await prefs.setBool('admin', false);
+                Get.offAll(() => const SelectUserTypeScreen());
+              }, '"Are you sure you want to log out?"');
             },
             icon: const Icon(Icons.logout),
           ),
@@ -49,7 +52,7 @@ class AdminHomeScreen extends StatelessWidget {
               bottomRight: Radius.circular(30),
             ),
           ),
-          const SizedBox(height: 20), 
+          const SizedBox(height: 20),
           Expanded(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -66,13 +69,16 @@ class AdminHomeScreen extends StatelessWidget {
                   ),
                   GridViewItomWidget(
                     text: 'Products',
-                    onTap: () {},
+                    onTap: () {
+                      Get.to(() => AdminProductScreen()); 
+
+                    },
                     icon: Icons.inventory_2_outlined,
                   ),
                   GridViewItomWidget(
                     text: 'Salesmen',
                     onTap: () {
-                      Get.to(()=>SalesmanScreen()); 
+                      Get.to(() => SalesmanScreen());
                     },
                     icon: Icons.person_2_outlined,
                   ),
@@ -87,6 +93,6 @@ class AdminHomeScreen extends StatelessWidget {
           ),
         ],
       ),
-    ); 
+    );
   }
 }
