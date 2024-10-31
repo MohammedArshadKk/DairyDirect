@@ -1,3 +1,4 @@
+import 'package:dairy_direct/controller/add_prodect_controller.dart';
 import 'package:dairy_direct/controller/add_salesman_controller.dart';
 import 'package:dairy_direct/utils/constants.dart';
 import 'package:dairy_direct/view/screens/common/splash_screen.dart';
@@ -23,7 +24,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (context) => AddSalesmanController())
+        ChangeNotifierProvider(create: (context) => AddSalesmanController()),
+        ChangeNotifierProvider(create: (context) => AddProdectController()), 
       ],
       child: GetMaterialApp(
         title: 'DairyDirect',

@@ -32,7 +32,6 @@ class AdminLoginScreen extends StatelessWidget {
               padding: const EdgeInsets.all(30.0),
               child: Form(
                 key: formKey,
-                
                 child: TextFormField(
                   obscureText: true,
                   decoration: const InputDecoration(
