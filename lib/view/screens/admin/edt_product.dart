@@ -7,14 +7,35 @@ import 'package:dairy_direct/view/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class AddProduct extends StatelessWidget {
-  AddProduct({super.key});
+class EditProduct extends StatefulWidget {
+  const EditProduct({super.key, required this.productModel});
+  final ProductModel productModel;
+  @override
+  State<EditProduct> createState() => _EditProductState();
+}
+
+class _EditProductState extends State<EditProduct> {
   final TextEditingController titleController = TextEditingController();
+
   final TextEditingController descriptionController = TextEditingController();
+
   final TextEditingController priceController = TextEditingController();
+
   final TextEditingController unitController = TextEditingController();
+
   final TextEditingController quantityController = TextEditingController();
+
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
+  @override
+  void initState() {
+    titleController.text = widget.productModel.title;
+    descriptionController.text = widget.productModel.description;
+    priceController.text = widget.productModel.price;
+    unitController.text = widget.productModel.unit;
+    quantityController.text = widget.productModel.quantity.toString();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -47,13 +68,9 @@ class AddProduct extends StatelessWidget {
                           borderColor: Border.all(
                               color: const Color.fromARGB(255, 195, 214, 223)),
                           child: Center(
-                            child: value.image != null
-                                ? Image.file(value.image!)
-                                : const Icon(
-                                    Icons.add_a_photo_outlined,
-                                    size: 50,
-                                  ),
-                          ),
+                              child: value.image != null
+                                  ? Image.file(value.image!)
+                                  : Image.network(widget.productModel.imgUrl)),
                         ),
                       ),
                     ),
@@ -208,33 +225,33 @@ class AddProduct extends StatelessWidget {
                             ? const CircularProgressIndicator()
                             : GestureDetector(
                                 onTap: () async {
-                                  if (value.image == null) {
-                                    showMessage(
-                                        'Please Add Product Image', context);
-                                  } else {
-                                    if (formKey.currentState!.validate()) {
+                                  if (formKey.currentState!.validate()) {
+                                    if (value.image != null) {
                                       await value.uploadProductImage();
-                                      final ProductModel productModel =
-                                          ProductModel(
-                                              title: titleController.text,
-                                              description:
-                                                  descriptionController.text,
-                                              price: priceController.text,
-                                              unit: unitController.text,
-                                              quantity: int.parse(
-                                                  quantityController.text),
-                                              imgUrl: value.productImageUrl!);
-                                      await value
-                                          .addProductToTable(productModel);
-                                      if (value.iscompleted) {
-                                        showMessage('Product Added', context);
-                                        value.getAllProduct();
-                                        titleController.clear();
-                                        descriptionController.clear();
-                                        priceController.clear();
-                                        unitController.clear();
-                                        quantityController.clear();
-                                      }
+                                    }
+                                    final ProductModel productModelEdit =
+                                        ProductModel(
+                                            title: titleController.text,
+                                            description:
+                                                descriptionController.text,
+                                            price: priceController.text,
+                                            unit: unitController.text,
+                                            quantity: int.parse(
+                                                quantityController.text),
+                                            imgUrl: value.image == null
+                                                ? widget.productModel.imgUrl
+                                                : value.productImageUrl!);
+                                    await value.editProduct(productModelEdit,
+                                        widget.productModel.id!);
+                                    if (value.iscompleted) {
+                                      value.getAllProduct();
+                                      titleController.clear();
+                                      descriptionController.clear();
+                                      priceController.clear();
+                                      unitController.clear();
+                                      quantityController.clear();
+                                      Navigator.pop(context);
+                                      Navigator.pop(context);
                                     }
                                   }
                                 },
@@ -245,7 +262,7 @@ class AddProduct extends StatelessWidget {
                                   borderRadius: BorderRadius.circular(8),
                                   child: Center(
                                       child: CustomText(
-                                    text: 'Add Product',
+                                    text: 'Edit Product',
                                     color: AppColors.secondaryColor,
                                     fontSize: 20,
                                     fontWeight: FontWeight.bold,

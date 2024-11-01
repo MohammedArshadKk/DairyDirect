@@ -20,8 +20,13 @@ class SelectUserTypeScreen extends StatelessWidget {
             fontSize: 25,
             color: AppColors.textColor,
           ),
-          const UserTypeWidget(
-              text: 'Store Manager', icon: Icons.storefront_outlined),
+          GestureDetector(
+            onTap: () {
+              
+            },
+            child: const UserTypeWidget(
+                text: 'Shop', icon: Icons.storefront_outlined,),
+          ),
           const UserTypeWidget(text: 'Salesman', icon: Icons.person_2_outlined),
           GestureDetector(
               onTap: () {

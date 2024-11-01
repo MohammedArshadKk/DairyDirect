@@ -13,6 +13,7 @@ class AddProdectController extends ChangeNotifier {
   String? productImageUrl;
   final SupabaseClient supabase = Supabase.instance.client;
   bool iscompleted = false;
+  List<ProductModel> products = [];
   Future<void> pickProductImage() async {
     try {
       final pickIcon = await picker.pickImage(source: ImageSource.gallery);
@@ -55,6 +56,51 @@ class AddProdectController extends ChangeNotifier {
       iscompleted = true;
       image = null;
       productImageUrl = null;
+      notifyListeners();
+    } catch (e) {
+      isLoading = false;
+      notifyListeners();
+      log(e.toString());
+    }
+  }
+
+  Future<void> getAllProduct() async {
+    try {
+      isLoading = true;
+      notifyListeners();
+      final data = await supabase.from('products').select();
+      products = data.map((product) {
+        return ProductModel.fromMap(product);
+      }).toList();
+      isLoading = false;
+      notifyListeners();
+    } catch (e) {
+      isLoading = false;
+      notifyListeners();
+      log(e.toString());
+    }
+  }
+
+  deleteProduct(int id) async {
+    try {
+      await supabase.from('products').delete().eq('id', id);
+      getAllProduct();
+      notifyListeners();
+    } catch (e) {
+      log(e.toString());
+    }
+  }
+
+  Future<void> editProduct(ProductModel prodectModel, int id) async {
+    try {
+      isLoading = true;
+      notifyListeners();
+      await supabase.from('products').update(prodectModel.toMap()).eq("id", id);
+      isLoading = false;
+      iscompleted = true;
+      image = null;
+      productImageUrl = null;
+      getAllProduct();
       notifyListeners();
     } catch (e) {
       isLoading = false;

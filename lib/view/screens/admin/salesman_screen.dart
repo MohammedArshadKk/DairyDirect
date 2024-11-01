@@ -73,62 +73,70 @@ class _SalesmanScreenState extends State<SalesmanScreen> {
           Expanded(
             child: salesman.isLoading
                 ? const LoadingWidget()
-                : ListView.builder(
-                    itemCount: salesman.listOfSalesman.length,
-                    itemBuilder: (context, index) {
-                      final SalesmanModel man = salesman.listOfSalesman[index];
-                      
-                      return Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 16, vertical: 8),
-                        child: Card(
-                          elevation: 4,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(15),
-                          ),
-                          child: ListTile(
-                            contentPadding: const EdgeInsets.all(10),
-                            leading: CircleAvatar(
-                              backgroundImage: NetworkImage(man.imgUrl),
-                              radius: 30,
-                            ),
-                            title: CustomText(
-                              text: man.name,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 18,
-                              color: AppColors.primaryColor,
-                            ),
-                            trailing: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                IconButton(
-                                  onPressed: () {
-                                    Get.to(() =>
-                                        EditSalesmanScreen(salesmanModel: man));
-                                  },
-                                  icon: const Icon(Icons.edit,
-                                      color: Colors.blueAccent),
-                                ),
-                                IconButton(
-                                  onPressed: () {
-                                    showMyDialog(
-                                      context,
-                                      () {
-                                        salesman.delete(man.columId!);
-                                      },
-                                      'Do you want to delete the salesman?',
-                                    );
-                                  },
-                                  icon: const Icon(Icons.delete,
-                                      color: Colors.redAccent),
-                                ),
-                              ],
-                            ),
-                          ),
+                : salesman.listOfSalesman.isEmpty
+                    ? const Center(
+                        child: CustomText(
+                          text: 'No Data',
+                          fontSize: 25,
                         ),
-                      );
-                    },
-                  ),
+                      )
+                    : ListView.builder(
+                        itemCount: salesman.listOfSalesman.length,
+                        itemBuilder: (context, index) {
+                          final SalesmanModel man =
+                              salesman.listOfSalesman[index];
+
+                          return Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 16, vertical: 8),
+                            child: Card(
+                              elevation: 4,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(15),
+                              ),
+                              child: ListTile(
+                                contentPadding: const EdgeInsets.all(10),
+                                leading: CircleAvatar(
+                                  backgroundImage: NetworkImage(man.imgUrl),
+                                  radius: 30,
+                                ),
+                                title: CustomText(
+                                  text: man.name,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 18,
+                                  color: AppColors.primaryColor,
+                                ),
+                                trailing: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    IconButton(
+                                      onPressed: () {
+                                        Get.to(() => EditSalesmanScreen(
+                                            salesmanModel: man));
+                                      },
+                                      icon: const Icon(Icons.edit,
+                                          color: Colors.blueAccent),
+                                    ),
+                                    IconButton(
+                                      onPressed: () {
+                                        showMyDialog(
+                                          context,
+                                          () {
+                                            salesman.delete(man.columId!);
+                                          },
+                                          'Do you want to delete the salesman?',
+                                        );
+                                      },
+                                      icon: const Icon(Icons.delete,
+                                          color: Colors.redAccent),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          );
+                        },
+                      ),
           ),
         ],
       ),
