@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "418496877131",
+    "project_id": "dairydirect-7b86e",
+    "storage_bucket": "dairydirect-7b86e.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:418496877131:android:6691d937d2338671aeb3ce",
+        "android_client_info": {
+          "package_name": "com.example.dairy_direct"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDNTu3bDRGwSZISdK6c2uzPlube89fw2bA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

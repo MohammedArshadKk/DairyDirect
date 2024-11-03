@@ -35,7 +35,7 @@ class AdminHomeScreen extends StatelessWidget {
                 SharedPreferences prefs = await SharedPreferences.getInstance();
                 await prefs.setBool('admin', false);
                 Get.offAll(() => const SelectUserTypeScreen());
-              }, '"Are you sure you want to log out?"');
+              }, '"Are you sure you want to logout?"');
             },
             icon: const Icon(Icons.logout),
           ),

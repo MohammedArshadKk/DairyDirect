@@ -5,7 +5,7 @@ Future<void> showMyDialog(
   return showDialog<void>(
     context: context,
     barrierDismissible: false,
-    builder: (BuildContext context) {
+    builder: (context) {
       return AlertDialog(
         title: const Text('Are you sure'),
         content: SingleChildScrollView(
