@@ -7,8 +7,11 @@ import 'package:dairy_direct/view/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-quantityAddDialog(BuildContext context, int quantity, String uid, int id,
-    String image, String title) {
+returnStockAddDialog(
+  BuildContext context,
+  int productId,
+  int orderId,
+) {
   showDialog(
     context: context,
     builder: (context) {
@@ -25,14 +28,18 @@ quantityAddDialog(BuildContext context, int quantity, String uid, int id,
                 padding: const EdgeInsets.all(20.0),
                 child: Column(
                   children: [
+                    const CustomText(
+                      text: 'Enter Return stock count',
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         GestureDetector(
                           onLongPress: () {
-                            value.decrement();
-                            value.formKey.currentState!.validate();
+                            value.decrementReturn();
                           },
                           child: CustomContainer(
                             height: 50,
@@ -43,8 +50,7 @@ quantityAddDialog(BuildContext context, int quantity, String uid, int id,
                             child: Center(
                               child: IconButton(
                                   onPressed: () {
-                                    value.decrement();
-                                    value.formKey.currentState!.validate();
+                                    value.decrementReturn();
                                   },
                                   icon: const Icon(
                                     Icons.remove,
@@ -62,20 +68,10 @@ quantityAddDialog(BuildContext context, int quantity, String uid, int id,
                                 elevation: 5,
                                 child: TextFormField(
                                   textAlign: TextAlign.center,
-                                  controller: value.countController,
+                                  controller: value.returnStockCountController,
                                   keyboardType: TextInputType.number,
                                   decoration: const InputDecoration(
                                       border: OutlineInputBorder()),
-                                  validator: (value) {
-                                    int? count = int.parse(value!);
-                                    if (count > quantity) {
-                                      return 'out of stock';
-                                    }
-                                    if (count == 0) {
-                                      return 'Please add quantity';
-                                    }
-                                    return null;
-                                  },
                                 ),
                               ),
                             ),
@@ -90,8 +86,7 @@ quantityAddDialog(BuildContext context, int quantity, String uid, int id,
                           child: Center(
                             child: IconButton(
                                 onPressed: () {
-                                  value.increment();
-                                  value.formKey.currentState!.validate();
+                                  value.incrementReturn();
                                 },
                                 icon: const Icon(
                                   Icons.add,
@@ -105,23 +100,12 @@ quantityAddDialog(BuildContext context, int quantity, String uid, int id,
                         ? const CircularProgressIndicator()
                         : GestureDetector(
                             onTap: () async {
-                              if (value.formKey.currentState!.validate()) {
-                                final OrderModel orderModel = OrderModel(
-                                  uid: uid,
-                                  productId: id,
-                                  isInTransit: false,
-                                  isDelivered: false,
-                                  quantity:
-                                      int.parse(value.countController.text),
-                                  imageUrl: image,
-                                  title: title,
-                                );
-                                await value.orderProducts(orderModel);
-                                if (value.isCompleted) {
-                                  Navigator.pop(context);
-                                  showMessage('Order placed', context);
-                                }
-                              }
+                              await value.isDeliveredFuction(
+                                  orderId,
+                                  productId,
+                                  int.parse(
+                                      value.returnStockCountController.text));
+                              Navigator.pop(context); 
                             },
                             child: CustomContainer(
                               width: double.infinity,
@@ -130,7 +114,7 @@ quantityAddDialog(BuildContext context, int quantity, String uid, int id,
                               borderRadius: BorderRadius.circular(30),
                               child: Center(
                                 child: CustomText(
-                                  text: 'Order Now',
+                                  text: 'Save',
                                   color: AppColors.secondaryColor,
                                   fontSize: 18,
                                 ),

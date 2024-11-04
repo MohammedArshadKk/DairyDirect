@@ -47,7 +47,5 @@ class OrderModel {
       title: map['title'],
     );
   }
-// Future<>  getHistory() {
-
-//   }
+  
 }

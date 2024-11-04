@@ -5,6 +5,8 @@ import 'package:dairy_direct/utils/colors.dart';
 import 'package:dairy_direct/utils/images.dart';
 import 'package:dairy_direct/view/screens/admin/admin_home.dart';
 import 'package:dairy_direct/view/screens/common/select_user_type.dart';
+import 'package:dairy_direct/view/screens/salesman/bottom_navigation.dart';
+import 'package:dairy_direct/view/screens/salesman/salesman_home.dart';
 import 'package:dairy_direct/view/screens/shop_side/shop_home.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -33,10 +35,12 @@ class _SplashScreenState extends State<SplashScreen> {
         if (_auth.currentUser != null) {
           await shopAuth.checkShopExist(_auth.currentUser!.uid);
           if (shopAuth.isShopExist) {
-            Get.offAll(() =>  ShopHome());
+            Get.offAll(() => ShopHome());
           }
         } else if (prefs.getBool('admin') == true) {
           Get.offAll(() => const AdminHomeScreen());
+        } else if (prefs.getBool('salesman') == true) {
+          Get.offAll(() => const BottomNavigation());  
         } else {
           Get.offAll(() => const SelectUserTypeScreen());
         }

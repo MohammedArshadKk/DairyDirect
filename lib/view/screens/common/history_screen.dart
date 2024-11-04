@@ -58,7 +58,7 @@ class _HistoryOrderScreenState extends State<HistoryOrderScreen> {
                 height: 200,
                 width: double.infinity,
                 borderRadius: BorderRadius.circular(8),
-                borderColor:
+                borderColor:  
                     Border.all(color: const Color.fromARGB(255, 213, 213, 213)),
                 color: const Color(0xFFF2F4F7),
                 child: Row(

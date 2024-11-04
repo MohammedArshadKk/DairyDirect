@@ -3,6 +3,8 @@ import 'package:dairy_direct/functions/show_message.dart';
 import 'package:dairy_direct/utils/colors.dart';
 import 'package:dairy_direct/utils/images.dart';
 import 'package:dairy_direct/view/screens/admin/admin_home.dart';
+import 'package:dairy_direct/view/screens/salesman/bottom_navigation.dart';
+import 'package:dairy_direct/view/screens/salesman/salesman_home.dart';
 import 'package:dairy_direct/view/widgets/custom_container.dart';
 import 'package:dairy_direct/view/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
@@ -60,6 +62,8 @@ class SalesmanLogin extends StatelessWidget {
                           SharedPreferences prefs =
                               await SharedPreferences.getInstance();
                           await prefs.setBool('salesman', true);
+                          value.salesmanLoginIdController.clear();
+                          Get.offAll(() => BottomNavigation()); 
                         } else {
                           showMessage('password incorrect', context);
                         }

@@ -91,12 +91,13 @@ class ProductDetailsScreen extends StatelessWidget {
         child: GestureDetector(
           onTap: () {
             quantityAddDialog(
-                context,
-                productModel.quantity,
-                _auth.currentUser!.uid,
-                productModel.id!,
-                productModel.imgUrl,
-                productModel.title);
+              context,
+              productModel.quantity,
+              _auth.currentUser!.uid,
+              productModel.id!,
+              productModel.imgUrl,
+              productModel.title,
+            );
           },
           child: CustomContainer(
             width: double.infinity,
