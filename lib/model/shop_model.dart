@@ -5,7 +5,8 @@ class ShopModel {
   final String shopName;
   final String shopImg;
   final String phoneNo;
-  final String shopLocation;
+  final double latitude;
+  final double longitude;
   final String uid;
   final String email;
 
@@ -13,7 +14,8 @@ class ShopModel {
     required this.shopName,
     required this.shopImg,
     required this.phoneNo,
-    required this.shopLocation,
+    required this.latitude,
+    required this.longitude,
     required this.uid,
     required this.email,
     this.id,
@@ -25,7 +27,8 @@ class ShopModel {
       shopName: map['shopName'],
       shopImg: map['shopImg'],
       phoneNo: map['phoneNo'],
-      shopLocation: map['shopLocation'],
+      latitude: map['latitude'],
+      longitude: map['longitude'],
       uid: map['uid'],
       email: map['email'],
     );
@@ -36,11 +39,10 @@ class ShopModel {
       'shopName': shopName,
       'shopImg': shopImg,
       'phoneNo': phoneNo,
-      'shopLocation': shopLocation,
+      'latitude': latitude,
+      'longitude': longitude,
       'uid': uid,
       'email': email,
     };
   }
-
-  
 }

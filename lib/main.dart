@@ -1,6 +1,7 @@
 import 'package:dairy_direct/controller/add_prodect_controller.dart';
 import 'package:dairy_direct/controller/add_salesman_controller.dart';
 import 'package:dairy_direct/controller/order_controller.dart';
+import 'package:dairy_direct/controller/salesman_login_controller.dart';
 import 'package:dairy_direct/controller/shop_auth_controller.dart';
 import 'package:dairy_direct/firebase_options.dart';
 import 'package:dairy_direct/utils/constants.dart';
@@ -36,6 +37,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => AddProdectController()),
         ChangeNotifierProvider(create: (context) => ShopAuthController()),
         ChangeNotifierProvider(create: (context) => OrderController()),
+        ChangeNotifierProvider(create: (context) => SalesmanLoginController()),
       ],
       child: GetMaterialApp(
         title: 'DairyDirect',

@@ -1,5 +1,6 @@
 import 'package:dairy_direct/utils/colors.dart';
 import 'package:dairy_direct/view/screens/admin/admin_login_screen.dart';
+import 'package:dairy_direct/view/screens/salesman/salesman_login.dart';
 import 'package:dairy_direct/view/screens/shop_side/sign_up_or_login_screen.dart';
 import 'package:dairy_direct/view/widgets/custom_text.dart';
 import 'package:dairy_direct/view/widgets/user_type_widget.dart';
@@ -30,7 +31,11 @@ class SelectUserTypeScreen extends StatelessWidget {
               icon: Icons.storefront_outlined,
             ),
           ),
-          const UserTypeWidget(text: 'Salesman', icon: Icons.person_2_outlined),
+          GestureDetector(
+            onTap: () {
+              Get.to(()=>SalesmanLogin());
+            },
+            child: const UserTypeWidget(text: 'Salesman', icon: Icons.person_2_outlined)),
           GestureDetector(
               onTap: () {
                 Get.to(() => AdminLoginScreen());

@@ -7,7 +7,8 @@ import 'package:dairy_direct/view/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-quantityAddDialog(BuildContext context, int quantity, String uid, int id) {
+quantityAddDialog(BuildContext context, int quantity, String uid, int id,
+    String image, String title) {
   showDialog(
     context: context,
     builder: (context) {
@@ -106,12 +107,15 @@ quantityAddDialog(BuildContext context, int quantity, String uid, int id) {
                             onTap: () async {
                               if (value.formKey.currentState!.validate()) {
                                 final OrderModel orderModel = OrderModel(
-                                    uid: uid,
-                                    productId: id,
-                                    isInTransit: false,
-                                    isDelivered: false,
-                                    quantity:
-                                        int.parse(value.countController.text));
+                                  uid: uid,
+                                  productId: id,
+                                  isInTransit: false,
+                                  isDelivered: false,
+                                  quantity:
+                                      int.parse(value.countController.text),
+                                  imageUrl: image,
+                                  title: title
+                                );
                                 await value.orderProducts(orderModel);
                                 if (value.isCompleted) {
                                   Navigator.pop(context);

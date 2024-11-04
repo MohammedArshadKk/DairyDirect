@@ -4,9 +4,11 @@ import 'dart:io';
 import 'package:dairy_direct/model/shop_model.dart';
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ShopAuthController extends ChangeNotifier {
   File? image;
@@ -19,7 +21,9 @@ class ShopAuthController extends ChangeNotifier {
   String? shopImageUrl;
   bool isCompleated = false;
   bool isShopExist = false;
-
+  String? pickedLocation;
+  double? longitude;
+  double? latitude;
   Future<void> pickShopImage() async {
     try {
       final pickIcon = await picker.pickImage(source: ImageSource.gallery);
@@ -119,5 +123,35 @@ class ShopAuthController extends ChangeNotifier {
       notifyListeners();
       log(e.toString());
     }
+  }
+
+  Future<void> launchGoogleMaps() async {
+    const url = 'geo:0,0?q=restaurants';
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
+
+  Future<void> updatePickedLocation() async {
+    final permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied ||
+        permission == LocationPermission.deniedForever) {
+      final newPermission = await Geolocator.requestPermission();
+      if (newPermission == LocationPermission.denied ||
+          newPermission == LocationPermission.deniedForever) {
+        log('Location permissions are denied');
+        return;
+      }
+    }
+
+    final position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high);
+    latitude = position.latitude;
+    longitude = position.longitude;
+    pickedLocation =
+        'Latitude: ${position.latitude}, Longitude: ${position.longitude}';
+    notifyListeners();
   }
 }

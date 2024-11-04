@@ -10,6 +10,7 @@ class OrderController extends ChangeNotifier {
   final SupabaseClient supabase = Supabase.instance.client;
   bool isLoading = false;
   bool isCompleted = false;
+  List<OrderModel> histosy = [];
   OrderController() {
     countController.text = '0';
   }
@@ -37,6 +38,24 @@ class OrderController extends ChangeNotifier {
       isLoading = false;
       log(e.toString());
       notifyListeners();
+    }
+  }
+
+  Future<void> historyOrder(String uid) async {
+    try {
+      isLoading = true;
+      notifyListeners();
+      final order =
+          await supabase.from('order products').select().eq('uid', uid);
+      histosy = order.map((data) {
+        return OrderModel.fromMap(data);
+      }).toList();
+      isLoading = false;
+      notifyListeners();
+    } catch (e) {
+      isLoading = false;
+      notifyListeners();
+      log(e.toString());
     }
   }
 }

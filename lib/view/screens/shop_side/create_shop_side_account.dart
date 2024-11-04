@@ -1,4 +1,5 @@
-import 'package:dairy_direct/controller/add_prodect_controller.dart';
+import 'dart:developer';
+
 import 'package:dairy_direct/controller/shop_auth_controller.dart';
 import 'package:dairy_direct/functions/show_message.dart';
 import 'package:dairy_direct/model/shop_model.dart';
@@ -115,7 +116,11 @@ class CreateShopSideAccount extends StatelessWidget {
                     Row(
                       children: [
                         GestureDetector(
-                          onTap: () async {},
+                          onTap: () async {
+                            await value.launchGoogleMaps();
+                            await value.updatePickedLocation();
+                            log(value.pickedLocation.toString());
+                          },
                           child: CustomContainer(
                             height: 60,
                             width: 165,
@@ -137,13 +142,17 @@ class CreateShopSideAccount extends StatelessWidget {
                           onTap: () async {
                             if (value.image == null) {
                               showMessage('Please Add Shop Image', context);
+                            } else if (value.pickedLocation == null) {
+                              showMessage(
+                                  'Please Add your shop Location', context);
                             } else {
                               if (formKey.currentState!.validate()) {
                                 final ShopModel shopModel = ShopModel(
                                     shopName: shopNameController.text,
                                     shopImg: value.image!.path,
                                     phoneNo: phoneNoController.text,
-                                    shopLocation: '',
+                                    latitude: value.latitude!,
+                                    longitude: value.longitude!,
                                     uid: '',
                                     email: '');
                                 Get.to(() => SignInWithGoogleScreen(

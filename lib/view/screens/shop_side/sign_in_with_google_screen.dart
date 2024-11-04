@@ -54,13 +54,14 @@ class SignInWithGoogleScreen extends StatelessWidget {
                                       shopName: shopModel.shopName,
                                       shopImg: value.shopImageUrl!,
                                       phoneNo: shopModel.phoneNo,
-                                      shopLocation: '',
+                                      latitude: shopModel.latitude,
+                                      longitude: shopModel.longitude,
                                       uid: _auth.currentUser!.uid,
                                       email:
                                           _auth.currentUser!.email.toString());
                                   await value.shopAddToTable(shopModel: model);
                                   if (value.isCompleated) {
-                                    Get.offAll(() =>  ShopHome());
+                                    Get.offAll(() => ShopHome());
                                   }
                                 }
                               }

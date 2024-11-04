@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:dairy_direct/controller/shop_auth_controller.dart';
 import 'package:dairy_direct/utils/colors.dart';
